@@ -1,5 +1,65 @@
 document.addEventListener("DOMContentLoaded", function() {
     
+    // --- Helper: Dynamisch scripts laden ---
+    const loadScript = (src) => {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    };
+
+    // --- 1. Bootstrap JS (Altijd laden) ---
+    loadScript("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js");
+
+    // --- 2. Syntax Highlighting (Async laden indien nodig) ---
+    const codeWrappers = document.querySelectorAll('.code-wrapper');
+    if (codeWrappers.length > 0) {
+        loadScript("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
+            .then(() => {
+                // Detecteer benodigde talen
+                const languages = new Set();
+                codeWrappers.forEach(w => w.classList.forEach(c => {
+                    if (c.startsWith('language-')) languages.add(c.replace('language-', ''));
+                }));
+                // Laad taal-bestanden
+                return Promise.all(Array.from(languages).map(lang => 
+                    loadScript(`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/${lang}.min.js`)
+                        .catch(() => console.warn(`Taal module niet gevonden: ${lang}`))
+                ));
+            })
+            .then(() => loadScript("https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"))
+            .then(() => {
+                codeWrappers.forEach(wrapper => {
+                    // Opbouw <pre><code> structuur
+                    if (!wrapper.querySelector('pre code')) {
+                        const content = wrapper.innerHTML.trim();
+                        const pre = document.createElement('pre');
+                        const code = document.createElement('code');
+                        wrapper.classList.forEach(cls => { if (cls.startsWith('language-')) code.classList.add(cls); });
+                        code.innerHTML = content;
+                        pre.appendChild(code);
+                        wrapper.innerHTML = '';
+                        wrapper.appendChild(pre);
+                    }
+                    
+                    // Highlight & Line Numbers
+                    const codeBlock = wrapper.querySelector('code');
+                    if (codeBlock) {
+                        if (wrapper.hasAttribute('data-start')) codeBlock.setAttribute('data-ln-start-from', wrapper.getAttribute('data-start'));
+                        hljs.highlightElement(codeBlock);
+                        if (wrapper.classList.contains('linenumbers')) hljs.lineNumbersBlock(codeBlock);
+                    }
+
+                    // Voeg copy button toe (pas na highlighting)
+                    addCopyButton(wrapper);
+                });
+            });
+    }
+
     // --- Automatisatie: Figure Zoom ---
     // Zoek alle figures met class 'figure-zoom'
     const zoomFigures = document.querySelectorAll('figure.figure-zoom');
@@ -33,35 +93,24 @@ document.addEventListener("DOMContentLoaded", function() {
         caption.classList.add('figure-caption');
     });
 
-    // --- Functionaliteit: Copy Code Buttons ---
-    // 1. Injecteer buttons in alle code-wrappers
-    document.querySelectorAll('.code-wrapper').forEach(wrapper => {
-        if (!wrapper.querySelector('.btn-copy')) {
-            const button = document.createElement('button');
-            button.className = 'btn-copy';
-            button.title = 'Kopieer naar klembord';
-            button.setAttribute('aria-label', 'Kopieer naar klembord');
-            wrapper.appendChild(button);
-        }
-    });
-
-    // 2. Voeg click event listeners toe
-    document.querySelectorAll('.btn-copy').forEach(button => {
+    // --- Helper: Copy Code Button ---
+    function addCopyButton(wrapper) {
+        if (wrapper.querySelector('.btn-copy')) return;
+        const button = document.createElement('button');
+        button.className = 'btn-copy';
+        button.title = 'Kopieer naar klembord';
+        button.setAttribute('aria-label', 'Kopieer naar klembord');
+        wrapper.appendChild(button);
+        
         button.addEventListener('click', () => {
-            const wrapper = button.closest('.code-wrapper');
             const codeBlock = wrapper.querySelector('code');
             if (!codeBlock) return;
-            
-            const text = codeBlock.innerText;
-
-            navigator.clipboard.writeText(text).then(() => {
+            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
                 button.classList.add('copied');
-                setTimeout(() => {
-                    button.classList.remove('copied');
-                }, 2000);
+                setTimeout(() => button.classList.remove('copied'), 2000);
             });
         });
-    });
+    }
 
     // --- Functionaliteit: Stappenplan (Wizard) ---
     document.querySelectorAll('.steps-container').forEach(container => {
@@ -317,4 +366,48 @@ document.addEventListener("DOMContentLoaded", function() {
         
         container.appendChild(row);
     });
+
+    // --- 3. JSON Viewer (Async laden indien nodig) ---
+    const jsonWrappers = document.querySelectorAll('.json-wrapper');
+    if (jsonWrappers.length > 0) {
+        loadScript("https://code.jquery.com/jquery-3.7.1.min.js")
+            .then(() => loadScript("https://cdn.jsdelivr.net/npm/jquery.json-viewer@1.5.0/json-viewer/jquery.json-viewer.min.js"))
+            .then(() => {
+                jsonWrappers.forEach(wrapper => {
+                    const $this = $(wrapper);
+                    const text = $this.text().trim();
+                    if (!text) return;
+                    try {
+                        const jsonContent = JSON.parse(text);
+                        $this.html('');
+                        $this.jsonViewer(jsonContent, { collapsed: true, withQuotes: false });
+                        
+                        // Eerste niveau uitklappen
+                        $this.find('a.json-toggle').first().click();
+
+                        // Voeg copy button toe (jQuery style)
+                        const $btn = $('<button class="btn-copy" title="Kopieer JSON"></button>');
+                        $btn.on('click', function() {
+                            navigator.clipboard.writeText(JSON.stringify(jsonContent, null, 2)).then(() => {
+                                $btn.addClass('copied');
+                                setTimeout(() => $btn.removeClass('copied'), 2000);
+                            });
+                        });
+                        $this.append($btn);
+                    } catch (e) {
+                        console.error("Invalid JSON:", e);
+                        $this.html(`<div class="text-danger p-2 border border-danger bg-light"><strong>Error:</strong><br>${e.message}</div>`);
+                    }
+                });
+            });
+    }
+
+    // --- 4. MathJax (Async laden indien nodig) ---
+    if (document.querySelectorAll('.math-tex').length > 0) {
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+        loadScript("https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js");
+    }
 });

@@ -1,3 +1,8 @@
+/* --- Externe Libraries --- */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css");
+@import url("https://cdn.jsdelivr.net/npm/jquery.json-viewer@1.5.0/json-viewer/jquery.json-viewer.min.css");
+
 /* --- Algemene Styling --- */
 :root {
     --primary: #004d40;
@@ -21,7 +26,6 @@ body {
     color: var(--body-color);
     font-size: 0.95rem;
     line-height: 1.6;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* --- Titels --- */
@@ -36,19 +40,25 @@ h1 {
 
 h2 {
     font-weight: 400;
-    margin-top: 50px;
-    margin-bottom: 25px;
-    color: var(--primary);
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 5px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    color: #133d39;
 }
 
 h3 {
     font-size: 1.25rem;
     font-weight: 500;
-    color: var(--body-color);
-    margin-top: 50px !important;
-    margin-bottom: 15px;
+    color: #0b4d47;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #005c4b;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 /* --- Tekst & Links --- */
@@ -65,7 +75,7 @@ a:hover {
     text-decoration: underline;
 }
 
-ul {
+ul, ol {
     padding-left: 20px;
 }
 
@@ -89,13 +99,16 @@ li {
 
 /* --- Tabel Styling --- */
 .table-spacer {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.table-spacer .table {
+    margin-bottom: 0;
 }
 
 .table {
     font-size: 0.9rem;
-    width: 100%;
 }
 
 .table-header-custom th {
@@ -128,8 +141,8 @@ li {
     border-radius: 8px;
     box-shadow: none;
     padding: 15px 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .info-title {
@@ -192,6 +205,14 @@ li {
     color: var(--text-light, #444);
     margin-bottom: 0;
     line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.info-box.normal p {
+    font-size: 0.95rem;
+}
+
+.info-box.small p {
     font-size: 0.9rem;
 }
 
@@ -267,8 +288,8 @@ li {
 /* --- Code Blokken --- */
 .code-wrapper {
     position: relative;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background-color: var(--box-bg);
@@ -315,7 +336,8 @@ pre code.hljs {
     mask-position: center;
 }
 
-.code-wrapper:hover .btn-copy {
+.code-wrapper:hover .btn-copy,
+.json-wrapper:hover .btn-copy {
     opacity: 1;
 }
 
@@ -329,6 +351,43 @@ pre code.hljs {
     -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
     mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
     border-color: var(--success);
+}
+
+/* --- JSON Viewer --- */
+.json-wrapper {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--box-bg);
+    padding: 15px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* Override plugin colors to match theme */
+ul.json-dict, ol.json-array {
+    padding-left: 2em;
+}
+
+.json-key {
+    color: var(--primary-dark);
+}
+
+.json-string {
+    color: var(--primary);
+}
+
+.json-literal {
+    color: var(--code-color);
+    font-weight: bold;
+}
+
+.json-boolean {
+    color: var(--code-color);
+    font-weight: bold;
 }
 
 /* --- Images & Figures --- */
@@ -388,7 +447,7 @@ pre code.hljs {
 /* --- Video --- */
 .video-container {
     margin-top: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -576,4 +635,26 @@ code {
 .spoiler-content.active {
     display: block;
     animation: fadeIn 0.3s ease-in-out;
+}
+
+/* --- Highlight.js Line Numbers --- */
+.hljs-ln-numbers {
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: right;
+    color: var(--secondary);
+    border-right: 1px solid var(--border-color);
+    vertical-align: top;
+    padding-right: 10px !important;
+    min-width: 30px;
+}
+
+.hljs-ln-code {
+    padding-left: 15px !important;
+}
+
+/* --- Math Formulas --- */
+.math-tex mjx-container {
+    color: var(--tip);
+    font-size: 1.1em;
 }
