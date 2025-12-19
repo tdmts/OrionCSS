@@ -95,6 +95,7 @@ li {
 
 .table {
     font-size: 0.9rem;
+    width: 100%;
 }
 
 .table-header-custom th {
