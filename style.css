@@ -26,6 +26,7 @@ body {
     color: var(--body-color);
     font-size: 0.95rem;
     line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* --- Titels --- */
@@ -109,6 +110,7 @@ li {
 
 .table {
     font-size: 0.9rem;
+    width: 100%;
 }
 
 .table-header-custom th {
