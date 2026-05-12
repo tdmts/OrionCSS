@@ -1,169 +1,190 @@
 <!DOCTYPE html>
-<html lang="nl"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Template &amp; Styleguide</title>
-    
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brightspace iframe probe</title>
+<style>
+  html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+  .frame-wrap { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+  iframe { width: 100%; height: 100%; border: 0; display: block; background: #0a0e14; }
+</style>
+</head>
+<body>
+<div class="frame-wrap">
+<iframe srcdoc='<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: #0a0e14;
+    background-image:
+      linear-gradient(rgba(250, 204, 21, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(250, 204, 21, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: #e6edf3;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    padding: 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/content/enforced/8606-SND-10D52725-D84E-443B/template/orion.css">
-</head><body><div class="container">
-<div class="row">
-<div class="col-12">
-<h1>Template &amp; Styleguide</h1>
-<p class="lead">Dit is een overzicht van alle beschikbare stijlelementen en componenten binnen dit thema.</p>
-<!-- Typography -->
-<h2>Typografie</h2>
-<h3>Kleine titel (H3)</h3>
-<p>Gebruik <code>&lt;h3&gt;</code> voor tussenkopjes.</p>
-<h4>Kleinste titel (H4)</h4>
-<p>Gebruik <code>&lt;h4&gt;</code> voor sub-secties.</p>
-<p>Standaard paragraaf tekst. Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Vetgedrukte tekst</strong> wordt gebruikt voor nadruk. <a href="#">Links zien er zo uit</a>.</p>
-<h2>Lijsten</h2>
-<h3>Ongeordende lijst</h3>
-<ul>
-<li>Lijst item 1</li>
-<li>Lijst item 2
-<ul>
-<li>Genest item 2.1</li>
-<li>Genest item 2.2</li>
-</ul>
-</li>
-<li>Lijst item 3</li>
-</ul>
-<h3>Geordende lijst</h3>
-<ol>
-<li>Eerste item</li>
-<li>Tweede item</li>
-<li>Derde item</li>
-</ol>
-<h3>Lijst met details</h3>
-<ul class="list-details">
-<li><strong>Titel van het item</strong> <small>Beschrijving van het item in een kleiner lettertype.</small></li>
-<li><strong>Nog een item</strong> <small>Extra informatie die onder het item wordt weergegeven.</small></li>
-</ul>
-<!-- Info & Note Boxes -->
-<h2>Informatieblokken</h2>
-<div class="info-box">
-<p><strong>Info Box:</strong> Gebruik dit voor algemene uitleg of context. Class: <code>.info-box</code>.</p>
+  /* Boundary markers - functional, not decorative */
+  .marker { position: fixed; background: #facc15; pointer-events: none; z-index: 999; }
+  .m-top { top: 0; left: 0; right: 0; height: 4px; }
+  .m-bot { bottom: 0; left: 0; right: 0; height: 4px; }
+  .m-lft { left: 0; top: 0; bottom: 0; width: 4px; }
+  .m-rgt { right: 0; top: 0; bottom: 0; width: 4px; }
+
+  .corner {
+    position: fixed; background: #ef4444; color: #fff;
+    padding: 5px 9px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.05em; z-index: 1000;
+  }
+  .c-tl { top: 14px; left: 14px; }
+  .c-tr { top: 14px; right: 14px; }
+  .c-bl { bottom: 14px; left: 14px; }
+  .c-br { bottom: 14px; right: 14px; }
+
+  .panel { max-width: 680px; }
+
+  .header {
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid #1f2937;
+    padding-bottom: 14px; margin-bottom: 28px;
+  }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #4ade80; box-shadow: 0 0 10px #4ade80;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .title { font-size: 12px; letter-spacing: 0.18em; color: #8b95a3; text-transform: uppercase; }
+  .status { font-size: 12px; color: #4ade80; margin-left: auto; letter-spacing: 0.1em; }
+
+  h1 { font-size: 26px; margin: 0 0 8px 0; font-weight: 600; letter-spacing: -0.02em; }
+  .sub { color: #8b95a3; margin: 0 0 28px 0; font-size: 13px; }
+
+  .readout {
+    border: 1px solid #1f2937;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 4px 22px;
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .row { display: flex; justify-content: space-between; padding: 10px 0; gap: 24px; }
+  .row + .row { border-top: 1px dashed #1f2937; }
+  .row span { color: #8b95a3; }
+  .row b { color: #facc15; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .row b.good { color: #4ade80; }
+  .row b.warn { color: #fb923c; }
+
+  .check {
+    border-left: 2px solid #facc15;
+    padding-left: 18px;
+    margin-bottom: 28px;
+  }
+  .check-title {
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #8b95a3; margin-bottom: 12px;
+  }
+  .check ul { margin: 0; padding-left: 20px; line-height: 1.9; font-size: 13px; }
+  .check li { color: #c9d1d9; }
+
+  .footnote {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.7;
+    border-top: 1px solid #1f2937;
+    padding-top: 16px;
+  }
+  .footnote code { color: #facc15; background: rgba(250, 204, 21, 0.08); padding: 1px 5px; border-radius: 2px; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<div class="marker m-top"></div>
+<div class="marker m-bot"></div>
+<div class="marker m-lft"></div>
+<div class="marker m-rgt"></div>
+
+<div class="corner c-tl">TL</div>
+<div class="corner c-tr">TR</div>
+<div class="corner c-bl">BL</div>
+<div class="corner c-br">BR</div>
+
+<div class="panel">
+  <div class="header">
+    <div class="dot"></div>
+    <div class="title">brightspace iframe probe</div>
+    <div class="status">ONLINE</div>
+  </div>
+
+  <h1>iframe rendering ok</h1>
+  <p class="sub">Gele randen markeren de iframe-grenzen. Rode hoeken (TL/TR/BL/BR) bevestigen of alle vier hoeken zichtbaar zijn.</p>
+
+  <div class="readout">
+    <div class="row"><span>iframe.innerWidth</span><b id="iw">—</b></div>
+    <div class="row"><span>iframe.innerHeight</span><b id="ih">—</b></div>
+    <div class="row"><span>parent.innerWidth</span><b id="ow">—</b></div>
+    <div class="row"><span>parent.innerHeight</span><b id="oh">—</b></div>
+    <div class="row"><span>fill ratio (h/h)</span><b id="ratio">—</b></div>
+    <div class="row"><span>devicePixelRatio</span><b id="dpr">—</b></div>
+    <div class="row"><span>updated</span><b id="ts">—</b></div>
+  </div>
+
+  <div class="check">
+    <div class="check-title">visuele controle</div>
+    <ul>
+      <li>Alle 4 gele randen volledig zichtbaar (geen onderbrekingen)?</li>
+      <li>Alle 4 rode hoek-labels zichtbaar (TL, TR, BL, BR)?</li>
+      <li>Fill ratio dicht bij 100%?</li>
+      <li>Geen dubbele scrollbars?</li>
+      <li>Het stippelraster vult het hele iframe?</li>
+    </ul>
+  </div>
+
+  <div class="footnote">
+    De parent dimensies komen van de wrapper-pagina (jouw HTML topic), niet van het volledige browservenster — Brightspace draait die topic zelf ook in een iframe waardoor we het echte browserformaat niet kunnen meten via JS. De ruimte die overblijft buiten de wrapper is Brightspace chrome (course nav, breadcrumb, header). Als <code>fill ratio</code> rond 100% zit en de markers zichtbaar zijn: <code>position: fixed; inset: 0</code> doet zijn werk.
+  </div>
 </div>
-<div class="info-box">
-<div class="info-title remark">Opmerking: Belangrijk</div>
-<p><strong>Remark Box:</strong> Voeg de class <code>remark</code> toe aan de <code>.info-title</code>.</p>
+
+<script>
+  function update() {
+    var iw = window.innerWidth, ih = window.innerHeight;
+    document.getElementById("iw").textContent = iw + " px";
+    document.getElementById("ih").textContent = ih + " px";
+    document.getElementById("dpr").textContent = window.devicePixelRatio;
+    document.getElementById("ts").textContent = new Date().toLocaleTimeString();
+
+    try {
+      var ow = window.parent.innerWidth;
+      var oh = window.parent.innerHeight;
+      document.getElementById("ow").textContent = ow + " px";
+      document.getElementById("oh").textContent = oh + " px";
+      var r = ((ih / oh) * 100);
+      var ratioEl = document.getElementById("ratio");
+      ratioEl.textContent = r.toFixed(1) + " %";
+      ratioEl.className = r >= 95 ? "good" : (r >= 80 ? "" : "warn");
+    } catch (e) {
+      document.getElementById("ow").textContent = "n/a (cross-origin)";
+      document.getElementById("oh").textContent = "n/a (cross-origin)";
+      document.getElementById("ratio").textContent = "n/a";
+    }
+  }
+  update();
+  window.addEventListener("resize", update);
+  setInterval(update, 1000);
+</script>
+
+</body>
+</html>'></iframe>
 </div>
-<div class="info-box">
-<div class="info-title warning">Waarschuwing: Let op</div>
-<p><strong>Warning Box:</strong> Voeg de class <code>warning</code> toe aan de <code>.info-title</code>.</p>
-</div>
-<div class="info-box">
-<div class="info-title tip">Tip: Handig om te weten</div>
-<p><strong>Tip Box:</strong> Voeg de class <code>tip</code> toe aan de <code>.info-title</code>.</p>
-</div>
-<!-- Tables -->
-<h2>Tabellen</h2>
-<div class="table-responsive table-spacer">
-<table class="table table-striped table-bordered align-middle"><caption class="table-caption">Tabel bijschrift (caption)</caption>
-<thead class="table-header-custom">
-<tr>
-<th>Header 1</th>
-<th>Header 2</th>
-<th>Header 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Data 1</td>
-<td>Data 2</td>
-<td>Data 3</td>
-</tr>
-<tr>
-<td>Data 4</td>
-<td>Data 5</td>
-<td>Data 6</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Code Blocks -->
-<h2>Code Blokken</h2>
-<h3>Arduino Voorbeeld met line numbers</h3>
-<div class="code-wrapper language-arduino linenumbers" data-start="15">void setup() { // Dit is een code voorbeeld Serial.begin(115200); } void loop() { // Main loop }</div>
-<h3>SQL Voorbeeld</h3>
-<div class="code-wrapper language-sql">SELECT id, name, email FROM users WHERE active = 1 ORDER BY created_at DESC;</div>
-<!-- Math Formulas -->
-<h2>Wiskunde Formules</h2>
-<p>Wiskundige formules worden automatisch gerenderd met MathJax wanneer de class <code>.math-tex</code> aanwezig is op de pagina.</p>
-<h3>Inline Formule</h3>
-<p class="math-tex">De wet van Ohm is $U = I \cdot R$ en het vermogen is $P = U \cdot I$.</p>
-<h3>Block Formule</h3>
-<div class="math-tex">$$ x_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</div>
-<!-- JSON Viewer -->
-<h2>JSON Data</h2>
-<div class="json-wrapper">{ "id": 1, "name": "Sensor Module", "active": true, "values": [12, 15, 11, 14], "config": { "baudrate": 115200, "parity": "None" } }</div>
-<!-- Downloads -->
-<h2>Download Sectie</h2>
-<div class="download-container"><a href="#">Download Project</a>
-<ul>
-<li>Instructie stap 1</li>
-<li>Instructie stap 2</li>
-</ul>
-</div>
-<!-- Images -->
-<h2>Afbeeldingen</h2>
-<p>Afbeeldingen met de class <code>.figure-zoom</code> krijgen automatisch een klik-om-te-vergroten link en een bijschrift.</p>
-<div class="my-4">
-<figure class="figure w-100 text-center figure-zoom"><img src="https://placehold.co/900x500/EEE/31343C" class="img-fluid" alt="Voorbeeld afbeelding"></figure>
-</div>
-<!-- Video -->
-<h2>Video Embed</h2>
-<div class="video-container">
-<div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" allowfullscreen="allowfullscreen"></iframe></div>
-</div>
-<!-- Inline Video -->
-<h2>Inline Video (Loop)</h2>
-<div class="my-4"><video src="/content/enforced/8606-SND-10D52725-D84E-443B/template/bottles-20200520.mp4" autoplay="autoplay" loop="loop" muted="" playsinline="" style="max-width: 100%; height: auto;"></video></div>
-<!-- Accordion -->
-<h2>Accordion (FAQ)</h2>
-<div class="accordion-container">
-<div class="accordion-item">
-<div class="title">Accordion Item #1</div>
-Dit is de inhoud van het eerste item.</div>
-<div class="accordion-item">
-<div class="title">Accordion Item #2</div>
-Dit is de inhoud van het tweede item.</div>
-</div>
-<!-- Stappenplan -->
-<h2>Stappenplan</h2>
-<div class="steps-container">
-<div class="title">Oplossing</div>
-<div class="caption">Gebruik de pijltjes om de stappen te doorlopen</div>
-<!-- Stap 1 -->
-<div class="step-item">
-<div class="step">Introductie</div>
-<p>Dit is de inhoud van stap 1. Hier kun je uitleg geven, afbeeldingen tonen of code snippets plaatsen.</p>
-<div class="alert alert-info">Begin hier met je instructies.</div>
-</div>
-<!-- Stap 2 -->
-<div class="step-item">
-<div class="step">Configuratie</div>
-<p>Hier zijn we bij stap 2 beland.</p>
-<img src="https://placehold.co/600x200/EEE/31343C?text=Afbeelding+Stap+2" class="img-fluid rounded mb-3" alt="Stap 2"></div>
-<!-- Stap 3 -->
-<div class="step-item">
-<div class="step">Afronding</div>
-<div class="alert alert-success">Klaar! Je hebt alle stappen doorlopen.</div>
-</div>
-</div>
-<!-- Spoilers -->
-<h2>Spoilers</h2>
-<div class="spoiler-container">
-<div class="basic">Soms wil je extra informatie geven zonder de lezer direct te overweldigen. Dit is een voorbeeld van een paragraaf met een spoiler.</div>
-<div class="button">Meer weten?</div>
-<div class="hidden">Dit is de verdiepende uitleg die tevoorschijn komt. Je kunt hier tekst, afbeeldingen of code in plaatsen. Het blok klapt open onder de paragraaf.</div>
-</div>
-</div>
-</div>
-</div>
-<p>
-<script src="/content/enforced/8606-SND-10D52725-D84E-443B/template/orion.js"></script>
-</p></body></html>
+</body>
+</html>
