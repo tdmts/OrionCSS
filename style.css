@@ -17,6 +17,7 @@
     --success: #198754;
     --warning: #a12121;
     --tip: #0d47a1;
+    --evaluation: #E65100;
     --icon-gray: #555;
 }
 
@@ -26,7 +27,6 @@ body {
     color: var(--body-color);
     font-size: 0.95rem;
     line-height: 1.6;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* --- Titels --- */
@@ -55,10 +55,10 @@ h3 {
 }
 
 h4 {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     font-weight: 500;
     color: #005c4b;
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 5px;
 }
 
@@ -85,12 +85,12 @@ li {
 }
 
 /* --- Lijsten met details --- */
-.list-details li {
-    margin-bottom: 15px;
+.list-details {
+    margin-top: 10px;
 }
 
-.list-details li strong {
-    display: block;
+.list-details li {
+    margin-bottom: 8px;
 }
 
 .list-details li small {
@@ -110,7 +110,6 @@ li {
 
 .table {
     font-size: 0.9rem;
-    width: 100%;
 }
 
 .table-header-custom th {
@@ -145,6 +144,7 @@ li {
     padding: 15px 20px;
     margin-top: 30px;
     margin-bottom: 30px;
+    font-size: 0.9rem;
 }
 
 .info-title {
@@ -203,19 +203,78 @@ li {
     mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath d='M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5z'/%3e%3c/svg%3e");
 }
 
+.info-title.evaluation {
+    color: var(--evaluation);
+}
+
+.info-title.evaluation::before {
+    background-color: var(--evaluation);
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath d='M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z'/%3e%3cpath d='M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z'/%3e%3cpath d='M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath d='M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z'/%3e%3cpath d='M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z'/%3e%3cpath d='M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3z'/%3e%3c/svg%3e");
+}
+
 .info-box p {
     color: var(--text-light, #444);
     margin-bottom: 0;
     line-height: 1.6;
-    font-size: 0.9rem;
 }
 
-.info-box.normal p {
+.info-box.normal {
     font-size: 0.95rem;
 }
 
-.info-box.small p {
+.info-box.small {
     font-size: 0.9rem;
+}
+
+/* --- Checklist --- */
+.checklist {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.checklist li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.info-box.evaluation .form-check-input:checked {
+    background-color: #bf360c;
+    border-color: #bf360c;
+}
+
+.info-box.evaluation .form-check-input:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.25);
+}
+
+.info-box.evaluation .form-check-input:checked:focus {
+    border-color: #bf360c;
+}
+
+.info-box.evaluation #qrcode {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 420px;
+    display: block !important;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: zoom-in;
+}
+
+.info-box.evaluation #qrcode img,
+.info-box.evaluation #qrcode svg,
+.info-box.evaluation #qrcode canvas {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
 }
 
 /* --- Download Sectie --- */
@@ -297,6 +356,24 @@ li {
     background-color: var(--box-bg);
 }
 
+.code-wrapper.show-language[data-language]::after {
+    content: attr(data-language);
+    position: absolute;
+    top: 5px;
+    right: 40px; /* Links van de copy button (30px + 5px margin + 5px spacing) */
+    height: 30px;
+    display: flex;
+    align-items: center;
+    color: var(--secondary);
+    font-family: sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.6;
+}
+
 pre {
     margin: 0;
     padding: 15px;
@@ -325,17 +402,24 @@ pre code.hljs {
     opacity: 0;
     transition: opacity 0.2s, background-color 0.2s;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-copy::before {
+    content: '';
+    width: 16px;
+    height: 16px;
     
     /* Icon: Copy */
     background-color: var(--icon-gray);
     -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
     mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
-    -webkit-mask-size: 16px;
-    mask-size: 16px;
+    -webkit-mask-size: contain;
+    mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
 }
 
 .code-wrapper:hover .btn-copy,
@@ -348,11 +432,15 @@ pre code.hljs {
 }
 
 .btn-copy.copied {
+    background-color: #fff;
+    border-color: var(--success);
+}
+
+.btn-copy.copied::before {
     /* Icon: Check */
     background-color: var(--success);
     -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
     mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
-    border-color: var(--success);
 }
 
 /* --- JSON Viewer --- */
@@ -363,7 +451,7 @@ pre code.hljs {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background-color: var(--box-bg);
-    padding: 15px;
+    padding: 15px 15px 15px 25px;
     overflow-x: auto;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 0.9em;
@@ -440,10 +528,6 @@ ul.json-dict, ol.json-array {
     vertical-align: middle;
     position: relative;
     top: -1px;
-}
-
-.figure-zoom .figure-caption::after {
-    content: 'Klik op de afbeelding om te vergroten';
 }
 
 /* --- Video --- */
@@ -606,9 +690,8 @@ code {
     margin-left: 5px;
 }
 
-.btn-spoiler:hover, .btn-spoiler.active {
-    color: var(--primary);
-    text-decoration: underline;
+.btn-spoiler:hover {
+    color: var(--primary-dark);
 }
 
 .btn-spoiler::after {
@@ -659,4 +742,315 @@ code {
 .math-tex mjx-container {
     color: var(--tip);
     font-size: 1.1em;
+}
+
+/* --- STL Viewer --- */
+.stl-viewer {
+    width: 100%;
+    height: 400px;
+    background-color: var(--box-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* --- Ants Feature --- */
+.ants-zone {
+    display: inline-block;
+    position: relative;
+    padding: 5px 10px;
+    color: var(--primary-dark);
+    font-weight: bold;
+    cursor: pointer;
+    background-image: 
+        linear-gradient(90deg, var(--primary) 50%, transparent 50%),
+        linear-gradient(90deg, var(--primary) 50%, transparent 50%),
+        linear-gradient(0deg, var(--primary) 50%, transparent 50%),
+        linear-gradient(0deg, var(--primary) 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+    animation: ants-march 1s linear infinite;
+}
+
+@keyframes ants-march {
+    0% { background-position: 0 0, 0 100%, 0 0, 100% 0; }
+    100% { background-position: 30px 0, -30px 100%, 0 -30px, 100% 30px; }
+}
+
+.ants-zone.ants-gone {
+    background-image: none;
+    animation: none;
+    cursor: default;
+    padding: 0;
+}
+
+/* --- Terminal Window --- */
+.terminal-window {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.terminal-window::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+.terminal-window::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0 0 6px 6px;
+}
+
+.terminal-window::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 5px;
+    border: 2px solid #1e1e1e;
+}
+
+.term-line {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    margin-bottom: 4px;
+    position: relative;
+    padding-right: 30px;
+    min-width: 100%;
+    width: fit-content;
+}
+
+.term-line:hover .btn-copy-cmd {
+    opacity: 1;
+}
+
+.term-prompt {
+    color: #75a357;
+    margin-right: 10px;
+    user-select: none;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.term-cmd {
+    color: #fff;
+    font-weight: bold;
+    flex-grow: 1;
+    white-space: nowrap;
+}
+
+.term-out {
+    color: #cccccc;
+    margin: 0 0 12px 0;
+    white-space: pre;
+    padding: 0;
+    opacity: 0.9;
+    font-family: inherit;
+    background-color: transparent;
+    border: none;
+    overflow: visible;
+    min-width: 100%;
+    width: fit-content;
+}
+
+.term-out .highlight {
+    color: #fff;
+    background-color: rgba(255, 75, 75, 0.1);
+    border: 1px solid rgba(255, 75, 75, 0.8);
+    font-weight: bold;
+    padding: 0 4px;
+    border-radius: 3px;
+}
+
+.btn-copy-cmd {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 0 5px;
+}
+
+.btn-copy-cmd:hover {
+    color: #fff;
+}
+
+.btn-copy-cmd::before {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.btn-copy-cmd.copied {
+    color: var(--success);
+}
+
+.btn-copy-cmd.copied::before {
+    background-color: var(--success);
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
+}
+
+/* --- Config Editor Window --- */
+.config-window {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    border-radius: 6px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.config-header {
+    background-color: #3c3c3c;
+    color: #cccccc;
+    padding: 8px 15px;
+    font-size: 0.85em;
+    border-bottom: 1px solid #2d2d2d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.config-file {
+    font-weight: bold;
+    color: #fff;
+}
+
+.config-body {
+    padding: 15px;
+    overflow-x: auto;
+}
+
+.conf-line {
+    display: block;
+    white-space: pre;
+    line-height: 1.6;
+    padding: 0 5px;
+    position: relative;
+}
+
+.conf-line.new {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #7ce390;
+}
+
+.conf-line.mod {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #ffe69c;
+}
+
+.conf-line.new:hover .btn-copy-conf,
+.conf-line.mod:hover .btn-copy-conf {
+    opacity: 1;
+}
+
+.btn-copy-conf {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 0 5px;
+}
+
+.btn-copy-conf:hover {
+    color: #fff;
+}
+
+.btn-copy-conf::before {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z'/%3e%3c/svg%3e");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.btn-copy-conf.copied {
+    color: var(--success);
+}
+
+.btn-copy-conf.copied::before {
+    background-color: var(--success);
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3e%3c/svg%3e");
+}
+
+/* ==========================================================================
+   Merged from the former OrionCSS/style.css (2026-09-01)
+
+   OrionCSS is now the single source of truth for Orion styling. These rules
+   existed only in the old style.css and would otherwise have been lost when
+   orion.css was promoted in. Keep them.
+   ========================================================================== */
+
+/* System font stack. orion.css never set one on body, so pages fell back to
+   the browser default. */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* info-box size variants */
+.info-box.normal p {
+    font-size: 0.95rem;
+}
+
+.info-box.small p {
+    font-size: 0.9rem;
+}
+
+/* Zoom affordance on zoomable figures */
+.figure-zoom .figure-caption::after {
+    content: 'Klik op de afbeelding om te vergroten';
+}
+
+/* An opened spoiler keeps the highlight, not just the hovered one.
+   orion.css styled :hover alone. */
+.btn-spoiler.active {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* <strong> inside a details list is a block-level label above its <small>. */
+.list-details li strong {
+    display: block;
 }
