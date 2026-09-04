@@ -100,17 +100,19 @@ document.addEventListener("DOMContentLoaded", function() {
             link.appendChild(img);
         }
 
-        // 2. Voeg figcaption toe als die niet bestaat
+        // 2. Voeg figcaption toe als die niet bestaat. De klikhint komt uit
+        //    style.css (.figure-zoom .figure-caption::after), dus hier komt er
+        //    geen tekst in: anders staat die zin er twee keer.
         let caption = figure.querySelector('figcaption');
         if (!caption) {
             caption = document.createElement('figcaption');
-            caption.innerText = 'Klik op de afbeelding om te vergroten';
             figure.appendChild(caption);
-        } else if (!caption.innerText.trim()) {
-            caption.innerText = 'Klik op de afbeelding om te vergroten';
         }
         // Zorg dat de juiste class aanwezig is voor de CSS styling
         caption.classList.add('figure-caption');
+        // Draagt de figuur een eigen bijschrift, dan zakt de klikhint naar een
+        // regel eronder in plaats van ernaast te komen staan.
+        caption.classList.toggle('has-caption', caption.innerText.trim() !== '');
     });
 
     // --- Helper: Copy Code Button ---

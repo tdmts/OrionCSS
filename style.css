@@ -500,6 +500,7 @@ ul.json-dict, ol.json-array {
     margin-top: 8px;
     font-style: italic;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 5px;
@@ -1038,9 +1039,20 @@ body {
     font-size: 0.9rem;
 }
 
-/* Zoom affordance on zoomable figures */
+/* Zoom affordance on zoomable figures. main.js adds .has-caption when the
+   figure carries a caption of its own; without it the hint is the only text
+   in the row and stays beside the icon. */
 .figure-zoom .figure-caption::after {
     content: 'Klik op de afbeelding om te vergroten';
+}
+
+/* Beside a caption the hint drops to a line of its own and steps back: it is
+   an affordance, not a second caption. Without flex-wrap on .figure-caption
+   the two sit side by side and read as two columns. */
+.figure-zoom .figure-caption.has-caption::after {
+    flex-basis: 100%;
+    font-size: 0.9em;
+    opacity: 0.7;
 }
 
 /* An opened spoiler keeps the highlight, not just the hovered one.
