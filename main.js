@@ -222,6 +222,74 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    // --- Functionaliteit: Vragenlijst (antwoord per vraag) ---
+    // Het antwoord staat bij de vraag, en nergens anders: een meerkeuzevraag duidt
+    // de juiste mogelijkheid aan met class="juist" op een <li> van haar <ul>, en
+    // elke vraag mag een <div class="oplossing"> dragen met het geschreven antwoord
+    // of de toelichting. De syllabus-export van OrionTools drukt uit dezelfde twee
+    // markeringen de Oplossingen van een hoofdstuk af; hier wordt het een spoiler
+    // die open en weer dicht kan, omdat een zelftest nadenken, nakijken en verder
+    // lezen is.
+    // De letter wordt geteld, nooit geschreven: verwissel twee mogelijkheden en
+    // "Antwoord b" volgt mee. Zonder dit blok blijft de oplossing als tekst onder
+    // de vraag staan, de goede kant om op te falen.
+    // Dit blok moet voor de Spoiler Container staan: het zet de markup neer die
+    // dat blok ombouwt.
+    document.querySelectorAll('ol.vragen > li').forEach(vraag => {
+        // Al gebouwd, door een oplossingen.js die een vak nog laadt.
+        if (vraag.querySelector(':scope > .spoiler-container')) return;
+
+        const geschreven = vraag.querySelector(':scope > .oplossing');
+        const antwoord = document.createElement('p');
+        const keuzes = vraag.querySelector(':scope > ul');
+
+        if (keuzes) {
+            const mogelijkheden = Array.from(keuzes.children).filter(el => el.tagName === 'LI');
+            const juist = mogelijkheden.findIndex(el => el.classList.contains('juist'));
+            if (juist < 0) return;
+
+            const kop = document.createElement('strong');
+            kop.textContent = `Antwoord ${String.fromCharCode(97 + juist)}.`;
+            antwoord.appendChild(kop);
+            let kern = mogelijkheden[juist].textContent.trim();
+            // Een mogelijkheid is vaak een los woord ("M12"): zonder punt plakt
+            // de toelichting eraan vast.
+            if (geschreven && kern && !'.?!:;'.includes(kern.slice(-1))) kern += '.';
+            antwoord.appendChild(document.createTextNode(` ${kern}`));
+            if (geschreven) antwoord.appendChild(document.createTextNode(' '));
+        } else if (!geschreven) {
+            return;
+        }
+
+        if (geschreven) {
+            while (geschreven.firstChild) antwoord.appendChild(geschreven.firstChild);
+            geschreven.remove();
+        }
+
+        const houder = document.createElement('div');
+        houder.className = 'spoiler-container';
+        houder.innerHTML = '<div class="button" data-shown="Verberg antwoord">Toon antwoord</div><div class="hidden"></div>';
+        houder.querySelector('.hidden').appendChild(antwoord);
+        vraag.appendChild(houder);
+    });
+
+    // --- Functionaliteit: Oplossing (eenrichtingsknop) ---
+    // Voor DE oplossing van een oefening, onder een <h2 id="oplossing...">: een
+    // klik toont ze en er is geen weg terug, want wie kijkt, heeft de oefening
+    // afgesloten. Wat de lezer weer wil dichtklappen (een hint, een denkvraag) is
+    // een accordion-item. De knop staat in de HTML, zodat hij ook zonder dit blok
+    // te zien is.
+    document.querySelectorAll('.solution-container').forEach(container => {
+        const knop = container.querySelector('.solution-reveal-btn');
+        const inhoud = container.querySelector('.solution-content');
+        if (!knop || !inhoud) return;
+
+        knop.addEventListener('click', () => {
+            knop.style.display = 'none';
+            inhoud.classList.add('active');
+        });
+    });
+
     // --- Functionaliteit: Spoiler Container ---
     document.querySelectorAll('.spoiler-container').forEach(container => {
         // 1. Elementen ophalen

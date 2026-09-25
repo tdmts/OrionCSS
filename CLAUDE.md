@@ -57,7 +57,10 @@ it must work standalone in an iframe: no cross-page navigation, no shared header
 - `.config-window` + `.conf-line.new` / `.conf-line.mod` — config file diffs
 - `.accordion-container` / `.accordion-item` — collapsible sections (FAQ, optional reading)
 - `.steps-container` / `.step-item` — step-by-step wizard (`data-title`, `data-caption`)
-- `.spoiler-container` + `.btn-spoiler` — hidden answer / solution reveal
+- `.spoiler-container` + `.btn-spoiler` — a paragraph that folds open and shut again
+- `ol.vragen` with `li.juist` / `.oplossing` — a question list; each answer becomes a spoiler
+- `.solution-container` + `.solution-reveal-btn` / `.solution-content` — the one-way reveal of an
+  exercise's solution
 - `.download-container` — file downloads with instructions
 - `.figure-zoom` — zoomable images (auto-appends "Klik op de afbeelding om te vergroten")
 - `.stl-viewer` (`data-src="..."`) — 3D STL preview
