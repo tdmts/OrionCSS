@@ -72,6 +72,14 @@ it must work standalone in an iframe: no cross-page navigation, no shared header
 `tdmts/OrionContent/template.html` renders every component with its exact markup. Read it before
 authoring rather than reproducing markup from this list, which will drift.
 
+## The deck: hoorcollege.css and hoorcollege.js
+
+A lecture deck (`Hoorcollege/<Sessie>.html` in a vak) is not a page and loads neither `style.css`
+nor `main.js`. It loads `hoorcollege.css` and `hoorcollege.js` from here, by the same absolute URL,
+because a deck is served from the course like a page is and every vak with decks would otherwise
+carry its own copy. Their headers say what they do; `export-handout` in OrionTools prints the same
+`hoorcollege.css`, read from this checkout, with its own `handout.css` on top.
+
 ## Voice & language
 
 - All content in **Dutch**.
