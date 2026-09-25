@@ -84,6 +84,13 @@ li {
     margin-bottom: 5px;
 }
 
+/* --- Vragenlijst --- */
+/* De mogelijkheden van een meerkeuzevraag dragen een letter: main.js telt
+   "Antwoord b" uit li.juist, en die b moet op de pagina ergens naar wijzen. */
+ol.vragen > li > ul {
+    list-style-type: lower-alpha;
+}
+
 /* --- Lijsten met details --- */
 .list-details {
     margin-top: 10px;
