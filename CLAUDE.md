@@ -52,7 +52,10 @@ it must work standalone in an iframe: no cross-page navigation, no shared header
 - `.info-box` + `.info-title`, variants `remark` / `warning` / `tip` / `evaluation`; sizes
   `.info-box.normal` / `.info-box.small` — callouts
 - `.checklist` — material lists, prerequisites
-- `.code-wrapper` with `.language-*`, `.linenumbers`, `.show-language` — code blocks
+- `.code-wrapper` with `.language-*`, `.linenumbers`, `.show-language` — code blocks. A language
+  highlight.js does not ship is registered in `main.js` itself: `language-rapid` (ABB RAPID, for IR,
+  2026-10-26). A block that fails to highlight is logged and skipped, so the blocks after it still
+  color
 - `.terminal-window` + `.term-line` / `.term-cmd` / `.term-out` — shell sessions
 - `.config-window` + `.conf-line.new` / `.conf-line.mod` — config file diffs
 - `.accordion-container` / `.accordion-item` — collapsible sections (FAQ, optional reading)

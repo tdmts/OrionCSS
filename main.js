@@ -20,13 +20,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if (codeWrappers.length > 0) {
         loadScript("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js")
             .then(() => {
+                // Talen die highlight.js niet meelevert, staan onderaan dit bestand (rapid).
+                if (!hljs.getLanguage('rapid')) hljs.registerLanguage('rapid', rapidLanguage);
                 // Detecteer benodigde talen
                 const languages = new Set();
                 codeWrappers.forEach(w => w.classList.forEach(c => {
                     if (c.startsWith('language-')) languages.add(c.replace('language-', ''));
                 }));
-                // Laad taal-bestanden
-                return Promise.all(Array.from(languages).map(lang => 
+                // Laad taal-bestanden, behalve wat al geregistreerd is
+                return Promise.all(Array.from(languages).filter(lang => !hljs.getLanguage(lang)).map(lang =>
                     loadScript(`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/${lang}.min.js`)
                         .catch(() => console.warn(`Taal module niet gevonden: ${lang}`))
                 ));
@@ -67,7 +69,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     const codeBlock = wrapper.querySelector('code');
                     if (codeBlock) {
                         if (wrapper.hasAttribute('data-start')) codeBlock.setAttribute('data-ln-start-from', wrapper.getAttribute('data-start'));
-                        hljs.highlightElement(codeBlock);
+                        // Een onbekende taal werpt een fout; die mag de blokken erna niet tegenhouden.
+                        try {
+                            hljs.highlightElement(codeBlock);
+                        } catch (e) {
+                            console.warn('Kon codeblok niet kleuren:', e.message);
+                        }
                         if (wrapper.classList.contains('linenumbers')) hljs.lineNumbersBlock(codeBlock);
                     }
 
@@ -723,3 +730,41 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+// --- RAPID (ABB), een taal die highlight.js niet meelevert ---
+// Gebruik: <pre class="code-wrapper language-rapid linenumbers show-language">. RAPID is
+// hoofdletterongevoelig; commentaar begint met !, een optioneel argument met \ (\WObj:=wobj0).
+// Function declaration, zodat ze al bestaat als de DOMContentLoaded-handler hierboven loopt.
+function rapidLanguage(hljs) {
+    return {
+        name: 'RAPID',
+        case_insensitive: true,
+        keywords: {
+            keyword: 'MODULE ENDMODULE PROC ENDPROC FUNC ENDFUNC TRAP ENDTRAP RECORD ENDRECORD ' +
+                'IF THEN ELSEIF ELSE ENDIF FOR FROM TO STEP DO ENDFOR WHILE ENDWHILE ' +
+                'TEST CASE DEFAULT ENDTEST RETURN EXIT STOP GOTO RAISE RETRY TRYNEXT ERROR UNDO BACKWARD ' +
+                'CONNECT WITH VAR CONST PERS LOCAL TASK INOUT ALIAS NOSTEPIN VIEWONLY READONLY SYSMODULE NOVIEW ' +
+                'AND OR XOR NOT DIV MOD',
+            type: 'num dnum bool string byte robtarget jointtarget tooldata wobjdata speeddata zonedata ' +
+                'loaddata confdata pos orient pose extjoint intnum errnum clock socketdev socketstatus ' +
+                'signaldi signaldo signalai signalao signalgi signalgo triggdata iodev',
+            literal: 'TRUE FALSE high low fine vmax tool0 wobj0 load0',
+            built_in: 'MoveJ MoveL MoveC MoveAbsJ MoveJDO MoveLDO MoveCDO MoveJSync MoveLSync ' +
+                'SetDO PulseDO Set Reset InvertDO SetAO SetGO WaitDI WaitDO WaitUntil WaitTime WaitRob ' +
+                'TPWrite TPErase TPReadNum TPReadFK Offs RelTool CRobT CJointT ' +
+                'ISignalDI ISignalDO ITimer IDelete IEnable IDisable ISleep IWatch ' +
+                'ClkStart ClkStop ClkReset ClkRead Incr Decr Add Abs Round Trunc ' +
+                'StrLen StrPart NumToStr ValToStr StrToVal ' +
+                'SocketCreate SocketConnect SocketBind SocketListen SocketAccept SocketSend SocketReceive ' +
+                'SocketPeek SocketClose SocketGetStatus DOutput DInput'
+        },
+        contains: [
+            hljs.COMMENT('!', '$'),
+            { className: 'string', begin: '"', end: '"', contains: [{ begin: '""' }] },
+            hljs.C_NUMBER_MODE,
+            // snelheid en zone uit de standaarddata: v100, z10
+            { className: 'literal', begin: /\b[vz]\d+\b/ },
+            // optioneel argument: \WObj, \SDelay, \InPos
+            { className: 'attr', begin: /\\[A-Za-z_]\w*/ }
+        ]
+    };
+}
