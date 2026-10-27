@@ -51,6 +51,8 @@ it must work standalone in an iframe: no cross-page navigation, no shared header
 
 - `.info-box` + `.info-title`, variants `remark` / `warning` / `tip` / `evaluation`; sizes
   `.info-box.normal` / `.info-box.small` — callouts
+- `p.controle` — the moment the student has his work checked; the same orange bar as in the verslag
+  docx, and OrionTools' `verslag-controle` asks for it on a lab page and in the verslag
 - `.checklist` — material lists, prerequisites
 - `.code-wrapper` with `.language-*`, `.linenumbers`, `.show-language` — code blocks. A language
   highlight.js does not ship is registered in `main.js` itself: `language-rapid` (ABB RAPID, for IR,
